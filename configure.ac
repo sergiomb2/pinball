@@ -15,6 +15,10 @@ AC_CANONICAL_TARGET
 
 AM_INIT_AUTOMAKE
 
+AC_PROG_MKDIR_P
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION(0.19.8)
+
 dnl this is a c++ program
 dnl CFLAGS="-g -W -Wall -O2"
 dnl CXXFLAGS="-g -W -Wall -O2"
@@ -87,6 +91,10 @@ AC_SUBST(EM_HIGHSCORE_DIR)
 eval EM_HIGHSCORE_PATH=`eval echo "$EM_HIGHSCORE_DIR"`
 AC_DEFINE_UNQUOTED(EM_HIGHSCORE_DIR, "$EM_HIGHSCORE_PATH", [Highscore directory])
 
+dnl EM_LOCALIZATION_DIR="/usr/share/locale"
+AC_SUBST(EM_LOCALIZATION_DIR)
+eval EM_LOCALIZATION_PATH=`eval echo "$EM_LOCALIZATION_DIR"`
+AC_DEFINE_UNQUOTED(EM_LOCALIZATION_DIR, "$EM_LOCALIZATION_PATH", [Localization directory])
 
 AC_ARG_ENABLE(libtest,
 	[AS_HELP_STRING([--disable-libtest],[SDL_image _mixer libtest work around ])],
@@ -292,7 +300,7 @@ dnl AC_SUBST(pkgincludedir)
 AC_CONFIG_FILES([Makefile addon/Makefile base/Makefile data/Makefile
  src/Makefile test/Makefile pinball-config
  data/tux/Makefile data/professor/Makefile data/hurd/Makefile
- data/gnu/Makefile data/professor2/Makefile
+ data/gnu/Makefile data/professor2/Makefile data/locale/Makefile.in
 ])
 
 AC_OUTPUT
