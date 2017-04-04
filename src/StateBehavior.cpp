@@ -16,6 +16,7 @@
 #include "SoundUtil.h"
 #include "BallGroup.h"
 #include "Loader.h"
+#include "Keyboard.h"
 
 StateItem::StateItem() {
   m_iActSig = -1;
@@ -280,6 +281,7 @@ void StateBehavior::StdOnSignal() {
 				      m_vtxRot.z + p_CurrentStateItem->m_vtxRot.z);
 			
     }
+    Keyboard::clear();
   } else {
     vector<StateItem*>::iterator iter = m_vStateItem.begin();
     vector<StateItem*>::iterator end = m_vStateItem.end();
