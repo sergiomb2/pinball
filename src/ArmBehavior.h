@@ -33,7 +33,7 @@ class ArmBehavior : public Behavior {
   Vertex3D m_vtxRot;
   bool m_bRight;
   int m_iCount;
-  bool m_bOn;
+  bool m_bActive;
   int m_iSound;
   bool m_bFirst;
   bool m_bTilt;
