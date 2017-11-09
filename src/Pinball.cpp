@@ -379,6 +379,7 @@ protected:
     // Save the high scores of current table, if any - pnf
     Table::getInstance()->writeHighScoresFile();
 
+    cerr<<"// m_Name="<<m_Name<<endl;
     if (Table::getInstance()->loadLevel(p_Engine, m_Name) == 0) {
       // Load high scores for this table - pnf
       Table::getInstance()->readHighScoresFile();
