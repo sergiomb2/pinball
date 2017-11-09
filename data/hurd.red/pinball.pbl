@@ -63363,7 +63363,7 @@ object out_table {
     vts { 24 }
     pls { 20 }
     tex { 
-      wood.jpg
+      Wood.jpg
     }
     vtx { 
       -103.8 -30 -59.4
