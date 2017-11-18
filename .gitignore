@@ -104,3 +104,4 @@ INSTALL
 debian/*.substvars
 debian/*-snapshot/
 
+.kdev4
