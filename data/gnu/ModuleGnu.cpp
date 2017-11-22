@@ -334,6 +334,7 @@ public:
         //which ball do we activate if we just locked a ball?
         int i = getFirstDeadBall();
         if (i > -1) {
+          if (i == 0) SendSignal(loader->getSignal("game_start"), 0, this->getParent(), NULL);
           SendSignal( PBL_SIG_BALL_ON, 0, this->getParent(), NULL );
           table->activateBall(i, 19.5f, 0.0f, 30.0f);   
           m_iCurrentBallSlot = i;
