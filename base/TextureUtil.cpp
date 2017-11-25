@@ -67,6 +67,7 @@ TextureUtil::TextureUtil() {
   m_colClear.b = 0.0f;
   m_colClear.a = 0.0f;
   m_SDLWindow = NULL;
+  m_glContext = NULL;
 }
 
 TextureUtil::~TextureUtil() {
@@ -191,8 +192,8 @@ void TextureUtil::initGrx() {
     exit(1);
   }
   
-  SDL_GLContext glContext = SDL_GL_CreateContext(m_SDLWindow);
-  if (glContext == NULL) {
+  m_glContext = SDL_GL_CreateContext(m_SDLWindow);
+  if (m_glContext == NULL) {
     cerr << "Couldn't create GL context: " << SDL_GetError() << endl;
     exit(1);
   }
@@ -276,6 +277,12 @@ void TextureUtil::initGrx() {
 void TextureUtil::stopGrx() {
   cerr << "Stopping graphics...";
 #if EM_USE_SDL
+  if(m_SDLWindow != NULL)
+  {
+      SDL_GL_DeleteContext(m_glContext);
+      SDL_DestroyWindow(m_SDLWindow);
+      m_SDLWindow = NULL;
+  }
   SDL_Quit();
 #endif
 #if EM_USE_ALLEGRO

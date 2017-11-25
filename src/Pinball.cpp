@@ -217,7 +217,7 @@ protected:
     } else {
       if (config->useFullScreen() == true) {
 #if EM_USE_SDL
-        SDL_SetWindowFullscreen(SDL_GetMouseFocus(), SDL_WINDOW_FULLSCREEN);
+        SDL_SetWindowFullscreen(SDL_GetMouseFocus(), 0);
 #endif
       }
       config->setFullScreen(false);
@@ -271,10 +271,7 @@ protected:
       
       if (  (config->getWidth() != w)  || (config->getHeight() != h) ) {
 #ifdef  EM_USE_SDL
-	SDL_Window* window = SDL_CreateWindow("menu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, /*config->getBpp(),*/
-			 SDL_WINDOW_OPENGL
-			 | (config->useFullScreen() ? SDL_WINDOW_FULLSCREEN : 0));
-    SDL_GLContext glContext = SDL_GL_CreateContext(window);
+	SDL_SetWindowSize(TextureUtil::getInstance()->getSDLWindow(), w, h);
 #endif // SDL
 	TextureUtil::getInstance()->resizeView(w, h);
 	
