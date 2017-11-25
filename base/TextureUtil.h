@@ -78,6 +78,7 @@ private:
   static TextureUtil* p_TextureUtil;
   Color m_colClear;
   SDL_Window* m_SDLWindow;
+  void* m_glContext;
 };
 
 #endif // TEXTUREUTIL_H
