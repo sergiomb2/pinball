@@ -182,7 +182,7 @@ void TextureUtil::initGrx() {
 
   /* Initialize the display */
   m_SDLWindow =
-    SDL_CreateWindow("Emilia Pinball", 0, 0,
+    SDL_CreateWindow("Emilia Pinball", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                      config->getWidth(), config->getHeight(), /*config->getBpp(),*/
                      SDL_WINDOW_OPENGL
                      | (config->useFullScreen() ? SDL_WINDOW_FULLSCREEN : 0));

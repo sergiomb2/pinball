@@ -278,7 +278,7 @@ protected:
       
       if (  (config->getWidth() != w)  || (config->getHeight() != h) ) {
 #ifdef  EM_USE_SDL
-	SDL_Window* window = SDL_CreateWindow("menu", 0, 0, w, h, /*config->getBpp(),*/
+	SDL_Window* window = SDL_CreateWindow("menu", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, /*config->getBpp(),*/
 			 SDL_WINDOW_OPENGL
 			 | (config->useFullScreen() ? SDL_WINDOW_FULLSCREEN : 0));
     SDL_GLContext glContext = SDL_GL_CreateContext(window);
