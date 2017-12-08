@@ -16,7 +16,8 @@
 
 #if EM_USE_SDL
 #include <SDL.h>
-#define EMKey SDLKey
+#define EMKey SDL_Keycode
+#include  <map>
 #endif // EM_USE_SDL
 
 #if EM_USE_ALLEGRO
@@ -128,7 +129,7 @@ class Keyboard {
   static EMKey waitForKey();
 #if EM_USE_SDL
  private:
-  static bool m_abKey[KEY_MAX];
+  static std::map<SDL_Keycode, bool> m_keyStatus;
 #endif
 };
 

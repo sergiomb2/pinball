@@ -11,8 +11,7 @@
 #include <string>
 #include <iostream>
 
-//#include <sstream>
-#include <strstream> //TODO:
+#include <sstream>
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -151,7 +150,7 @@ protected:
     return EM_MENU_NOP;
   }
   const char * getText() {
-    ostrstream stm; //TODO
+    stringstream stm; //TODO
     stm.clear();
     string name(m_Name);
     const char * keyname = Config::getInstance()->getKeyCommonName(Config::getInstance()->getKey(name));
@@ -211,14 +210,14 @@ protected:
     if (menuscreen->getCurrent() == 0) {
       if (config->useFullScreen() == false) {
 #if EM_USE_SDL
-        SDL_WM_ToggleFullScreen(SDL_GetVideoSurface());
+        SDL_SetWindowFullscreen(SDL_GetMouseFocus(), SDL_WINDOW_FULLSCREEN);
 #endif
       }
       config->setFullScreen(true);
     } else {
       if (config->useFullScreen() == true) {
 #if EM_USE_SDL
-        SDL_WM_ToggleFullScreen(SDL_GetVideoSurface());
+        SDL_SetWindowFullscreen(SDL_GetMouseFocus(), 0);
 #endif
       }
       config->setFullScreen(false);
@@ -272,9 +271,7 @@ protected:
       
       if (  (config->getWidth() != w)  || (config->getHeight() != h) ) {
 #ifdef  EM_USE_SDL
-	SDL_SetVideoMode(w, h, config->getBpp(),
-			 SDL_OPENGL
-			 | (config->useFullScreen() ? SDL_FULLSCREEN : 0));
+	SDL_SetWindowSize(TextureUtil::getInstance()->getSDLWindow(), w, h);
 #endif // SDL
 	TextureUtil::getInstance()->resizeView(w, h);
 	
@@ -379,6 +376,7 @@ protected:
     // Save the high scores of current table, if any - pnf
     Table::getInstance()->writeHighScoresFile();
 
+    cerr<<"// m_Name="<<m_Name<<endl;
     if (Table::getInstance()->loadLevel(p_Engine, m_Name) == 0) {
       // Load high scores for this table - pnf
       Table::getInstance()->readHighScoresFile();

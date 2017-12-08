@@ -82,7 +82,7 @@ eval EM_LOCALIZATION_PATH=`eval echo "$EM_LOCALIZATION_DIR"`
 AC_DEFINE_UNQUOTED(EM_LOCALIZATION_DIR, "$EM_LOCALIZATION_PATH", [Localization directory])
 
 
-AC_ARG_ENABLE(libtest, [  --disable-libtest     SDL_image _mixer libtest work around ], , enable_libtest=yes)
+AC_ARG_ENABLE(libtest, [  --disable-libtest     SDL2_image _mixer libtest work around ], , enable_libtest=yes)
 
 dnl *******************************************
 dnl Allegro or SDL version ********************
@@ -150,7 +150,7 @@ LIBS="$GL_LIBS $LIBS"
 
 dnl *******************************************
 dnl SDL ***************************************
-AM_PATH_SDL(1.2.0, : , AC_MSG_ERROR([*** SDL version 1.2.0 not found! Make sure you have the development package of SDL installed - (www.libsdl.org) - or try to use the --with-sdl-prefix option]))
+AM_PATH_SDL2(2.0, : , AC_MSG_ERROR([*** SDL version 2.0 not found! Make sure you have the development package of SDL installed - (www.libsdl.org) - or try to use the --with-sdl-prefix option]))
 CFLAGS="$CFLAGS $SDL_CFLAGS"
 CPPFLAGS="$CPPFLAGS $SDL_CFLAGS"
 LIBS="$LIBS $SDL_LIBS"
@@ -167,9 +167,9 @@ if test x"$sdlimage_prefix" != "x"; then
 fi
 
 if test x"$enable_libtest" = x"yes"; then
-  AC_CHECK_LIB(SDL_image, IMG_Load, : ,AC_MSG_ERROR([*** libSDL_image not found! Make sure you have the development package of SDL_image installed - (www.libsdl.org) - or try to use the --with-sdlimage-prefix option]), )
+  AC_CHECK_LIB(SDL2_image, IMG_Load, : ,AC_MSG_ERROR([*** libSDL2_image not found! Make sure you have the development package of SDL2_image installed - (www.libsdl.org) - or try to use the --with-sdlimage-prefix option]), )
 fi
-LIBS="$LIBS -lSDL_image"
+LIBS="$LIBS -lSDL2_image"
 
 dnl SDL_mixer **********************************
 AC_ARG_WITH(sdlmixer-prefix, [  --with-sdlmixer-prefix=PFX prefix where SDL_mixer library is installed], sdlmixer_prefix="$withval", sdlmixer_prefix="")
@@ -183,9 +183,9 @@ if test x"$sdlmixer_prefix" != "x"; then
 fi
 
 if test x"enable_libtest" = x"yes"; then
-  AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio, : ,AC_MSG_ERROR([*** libSDL_mixer not found. Make sure you have the development package of SDL_mixer installed - (www.libsdl.org) - or try to use --with-sdlmixer-prefix option]), )
+  AC_CHECK_LIB(SDL2_mixer, Mix_OpenAudio, : ,AC_MSG_ERROR([*** libSDL2_mixer not found. Make sure you have the development package of SDL2_mixer installed - (www.libsdl.org) - or try to use --with-sdlmixer-prefix option]), )
 fi
-LIBS="$LIBS -lSDL_mixer"
+LIBS="$LIBS -lSDL2_mixer"
 
 dnl else use allegro instead of sdl
 

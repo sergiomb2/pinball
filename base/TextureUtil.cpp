@@ -66,6 +66,8 @@ TextureUtil::TextureUtil() {
   m_colClear.g = 0.0f;
   m_colClear.b = 0.0f;
   m_colClear.a = 0.0f;
+  m_SDLWindow = NULL;
+  m_glContext = NULL;
 }
 
 TextureUtil::~TextureUtil() {
@@ -146,20 +148,27 @@ void TextureUtil::initGrx() {
     if (njoystick != 0) {
       cerr << "The names of the joysticks are:" << endl;
       for(int a=0; a<njoystick; a++ ) {
-        cerr << "  " << SDL_JoystickName(a) << endl;
+        cerr << "  " << SDL_JoystickNameForIndex(a) << endl;
       }
-      cerr << "Using " << SDL_JoystickName(0) << endl << endl;
+      cerr << "Using " << SDL_JoystickNameForIndex(0) << endl << endl;
       SDL_JoystickOpen(0);
       SDL_JoystickEventState(SDL_ENABLE);
     }
   }
 
   // See if we should detect the display depth
-  if ( SDL_GetVideoInfo()->vfmt->BitsPerPixel <= 8 ) {
+  int display_in_use = 0; /* Only using first display */
+  SDL_DisplayMode mode;
+  if (SDL_GetDesktopDisplayMode(display_in_use, &mode) != 0) {
+    SDL_Log("SDL_GetDisplayMode failed: %s", SDL_GetError());
+    exit(1);
+  }
+
+  if ( SDL_BITSPERPIXEL(mode.format) <= 8 ) {
     SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 2 );
     SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 3 );
     SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 3 );
-  } else        if ( SDL_GetVideoInfo()->vfmt->BitsPerPixel <= 16 ) {
+  } else        if ( SDL_BITSPERPIXEL(mode.format) <= 16 ) {
     SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
     SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );
     SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
@@ -173,20 +182,24 @@ void TextureUtil::initGrx() {
   SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
   /* Initialize the display */
-  SDL_Surface* screen =
-    SDL_SetVideoMode(config->getWidth(), config->getHeight(), config->getBpp(),
-                     SDL_OPENGL
-                     | (config->useFullScreen() ? SDL_FULLSCREEN : 0));
-
-  //    if (config->useFullScreen()) {
-  SDL_ShowCursor(SDL_DISABLE);
-  //    }
-  SDL_WM_SetCaption("Emilia Pinball", NULL);
-
-  if (screen == NULL) {
-    cerr << "Couldn't set video mode: " << SDL_GetError() << endl;
+  m_SDLWindow =
+    SDL_CreateWindow("Emilia Pinball", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                     config->getWidth(), config->getHeight(), /*config->getBpp(),*/
+                     SDL_WINDOW_OPENGL
+                     | (config->useFullScreen() ? SDL_WINDOW_FULLSCREEN : 0));
+  if (m_SDLWindow == NULL) {
+    cerr << "Couldn't create SDL window: " << SDL_GetError() << endl;
     exit(1);
   }
+  
+  m_glContext = SDL_GL_CreateContext(m_SDLWindow);
+  if (m_glContext == NULL) {
+    cerr << "Couldn't create GL context: " << SDL_GetError() << endl;
+    exit(1);
+  }
+
+  SDL_ShowCursor(SDL_DISABLE);
+  //SDL_WM_SetCaption("Emilia Pinball", NULL);
 
   cerr << "Vendor     : " << glGetString( GL_VENDOR ) << endl;
   cerr << "Renderer   : " << glGetString( GL_RENDERER ) << endl;
@@ -264,6 +277,12 @@ void TextureUtil::initGrx() {
 void TextureUtil::stopGrx() {
   cerr << "Stopping graphics...";
 #if EM_USE_SDL
+  if(m_SDLWindow != NULL)
+  {
+      SDL_GL_DeleteContext(m_glContext);
+      SDL_DestroyWindow(m_SDLWindow);
+      m_SDLWindow = NULL;
+  }
   SDL_Quit();
 #endif
 #if EM_USE_ALLEGRO
@@ -431,5 +450,10 @@ const char * TextureUtil::getTextureName(EmTexture * tex) {
   loadTexture( (*is).c_str() );
   }
 */
+
+SDL_Window* TextureUtil::getSDLWindow() const
+{
+    return m_SDLWindow;
+}
 
 //EOF: $Id: TextureUtil.cpp,v 1.15 2003/06/18 10:43:45 henqvist Exp $

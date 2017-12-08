@@ -49,6 +49,8 @@ extern ZBUFFER * zbuffer;
 
 #include "EMath.h"
 
+class SDL_Window;
+
 /** Singleton class for initializing graphics and loading textures. */
 class TextureUtil {
 protected:
@@ -67,6 +69,7 @@ public:
   const char * getTextureName(EmTexture * tex);
   void setClearColor(float r = 1, float g = 1, float b = 1, float a = 1);
   void getFilename(list<string>& filenames);
+  SDL_Window* getSDLWindow() const;
 private:
   /// load it also in openGL context
   int genTexture( char const * const filename, EmTexture * const texture);
@@ -74,6 +77,8 @@ private:
   map<string, EmTexture*> m_hEmTexture;
   static TextureUtil* p_TextureUtil;
   Color m_colClear;
+  SDL_Window* m_SDLWindow;
+  void* m_glContext;
 };
 
 #endif // TEXTUREUTIL_H

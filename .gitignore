@@ -36,6 +36,9 @@ debian/pinball.postinst.debhelper
 debian/pinball.postrm.debhelper
 debian/pinball.substvars
 debian/pinball/
+debian/pinball-data-extra/
+debian/.debhelper/
+debian/debhelper-build-stamp
 debian/tmp/
 libtool
 manpage.links
@@ -103,4 +106,6 @@ INSTALL
 
 debian/*.substvars
 debian/*-snapshot/
+
+.kdev4
 
