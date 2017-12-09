@@ -823,7 +823,7 @@ int main(int argc, char *argv[]) {
         SoundUtil::getInstance()->resumeMusic();
       }
 
-      if (Keyboard::isKeyDown(SDLK_r)) {
+      if (Keyboard::isKeyDown(Config::getInstance()->getKey("reset"))) {
         SendSignal(PBL_SIG_RESET_ALL, 0, engine, NULL);
       }
 
