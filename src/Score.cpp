@@ -9,6 +9,9 @@
     modifs
     20030510  pnf        : Display message ExtraBall when flag activated
                             for current ball.
+    20171209  c30zD      : Correctly display the "reset" and "launch" keys.
+    20171213  c30zD      : Fix previous strings for gettext usage.
+    20170209  sergiomb2  : Fix previous not use array with limited size
 
 ***************************************************************************/
 
@@ -82,10 +85,13 @@ void Score::onTick() {
 
 void Score::StdOnSignal() {
   EM_COUT((int)em_signal, 1);
+  Config *cfg = Config::getInstance();
+  char *pStrMsg;
 
   OnSignal( PBL_SIG_RESET_ALL ) {
     this->clear();
-    this->setText1(gettext("press enter to launch ball"));
+    asprintf(&pStrMsg, gettext("press %s to launch ball"), cfg->getKeyCommonName(cfg->getKey("launch")));
+    this->setText1(pStrMsg);
     SendSignal( PBL_SIG_CLEAR_TEXT, 400, this->getParent(), NULL );
   } 
   ElseOnSignal( PBL_SIG_TILT ) {
@@ -123,7 +129,8 @@ void Score::StdOnSignal() {
 
     this->setText2("");
     this->setText3(gettext("game over"));
-    this->setText4(gettext("press r to start new game"));
+    asprintf(&pStrMsg, gettext("press %s to start new game"), cfg->getKeyCommonName(cfg->getKey("reset")));
+    this->setText4(pStrMsg);
   }
 }
 
