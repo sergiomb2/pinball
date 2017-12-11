@@ -58,9 +58,7 @@
 #include "BallGroup.h"
 #include "Table.h"
 
-#if EM_USE_SDL
 #include <SDL.h>
-#endif
 
 #define AMBIENT 0.05f
 
@@ -210,16 +208,12 @@ protected:
     // fullscreen
     if (menuscreen->getCurrent() == 0) {
       if (config->useFullScreen() == false) {
-#if EM_USE_SDL
         SDL_SetWindowFullscreen(SDL_GetMouseFocus(), SDL_WINDOW_FULLSCREEN);
-#endif
       }
       config->setFullScreen(true);
     } else {
       if (config->useFullScreen() == true) {
-#if EM_USE_SDL
         SDL_SetWindowFullscreen(SDL_GetMouseFocus(), 0);
-#endif
       }
       config->setFullScreen(false);
     }
@@ -271,9 +265,7 @@ protected:
       }
       
       if (  (config->getWidth() != w)  || (config->getHeight() != h) ) {
-#ifdef  EM_USE_SDL
 	SDL_SetWindowSize(TextureUtil::getInstance()->getSDLWindow(), w, h);
-#endif // SDL
 	TextureUtil::getInstance()->resizeView(w, h);
 	
 #ifdef WIN32 //~rzr:{  //cout<<("Workround bug (for WIN32) + macosx etc");
@@ -535,9 +527,7 @@ MenuItem* createMenus(Engine * engine) {
   menucfg->addMenuItem(menukey);
 
   string filename = string(Config::getInstance()->getDataSubDir()) + "/splash.png";
-#if EM_USE_ALLEGRO
-  filename += ".pcx";
-#endif
+
   EmTexture * tex = TextureUtil::getInstance()->loadTexture(filename.c_str());
   if (tex != NULL) {
     menu->setBackground(tex);
@@ -786,12 +776,7 @@ int main(int argc, char *argv[]) {
     }
     engine->setLightning(direct, AMBIENT);
 
-#if EM_USE_SDL
     string filename = Config::getInstance()->getDataDir() + string("/font_34.png");
-#endif
-#if EM_USE_ALLEGRO
-    string filename = Config::getInstance()->getDataDir() + string("/font_35.pcx");
-#endif
 
     EmFont::getInstance()->loadFont(filename.c_str());
 
@@ -854,10 +839,6 @@ int main(int argc, char *argv[]) {
   }
   return EXIT_SUCCESS;
 }
-
-#if EM_USE_ALLEGRO
-END_OF_MAIN();
-#endif
 
 
 /// entry point function (main) for w32 codewarrior

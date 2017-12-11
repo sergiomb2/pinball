@@ -10,7 +10,6 @@
 
 /** Main */
 int main(int argc, char *argv[]) {
-#if EM_USE_SDL
 	cerr << "Joystick test" << endl;
 	Engine* engine = new Engine(argc, argv);
 	
@@ -31,12 +30,7 @@ int main(int argc, char *argv[]) {
 	}	
 
 	delete(engine);
-#else
-#warning "this is sdl specific test"
-#endif
+
 	return 0;
 }
 
-#if EM_USE_ALLEGRO
-END_OF_MAIN();
-#endif

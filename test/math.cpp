@@ -118,7 +118,4 @@ int main() {
 }
 #endif
 
-#if EM_USE_ALLEGRO
-END_OF_MAIN();
-#endif
 
