@@ -14,7 +14,6 @@
 #include "Config.h"
 #include <iostream>
 
-#if EM_USE_SDL
 #include <SDL_opengl.h> //should fix GL portability ; instead of <OpenGL/gl.h>
 // TODO remove glu
 #if EM_DEBUG
@@ -50,14 +49,6 @@ extern "C" {
     return image;
   }
 }
-#endif // EM_USE_SDLIMAGE
-
-#if EM_USE_ALLEGRO
-#include <allegro.h>
-BITMAP * backbuffer = NULL;
-ZBUFFER * zbuffer = NULL;
-#endif // EM_USE_ALLEGRO
-
 
 TextureUtil* TextureUtil::p_TextureUtil = NULL;
 
@@ -84,7 +75,6 @@ TextureUtil* TextureUtil::getInstance() {
 
 //!+rzr : this workaround a WIN32 bug // TODO: check (bugs possible)
 void TextureUtil::freeTextures()  {
-#if EM_USE_SDL
   //EM_COUT("+ TextureUtil::freeTextures",1);
   map<string,EmTexture*>::iterator i;
   for ( i = m_hEmTexture.begin();
@@ -97,14 +87,12 @@ void TextureUtil::freeTextures()  {
   m_hEmTexture.clear();
   /// same pointers
   m_hImageName.clear();
-#endif    // TODO ALLEGRO
 }
 
 
 // may solve the w32 bug on resize //TODO check it @w32
 void TextureUtil::reloadTextures()  {
   //cout<<"+ TextureUtil::reloadTextures"<<endl;
-#if EM_USE_SDL
   m_hImageName.clear();
   map<string,EmTexture*>::iterator i;
   for ( i = m_hEmTexture.begin();
@@ -114,7 +102,6 @@ void TextureUtil::reloadTextures()  {
     genTexture( (*i).first.c_str() ,  (*i).second  );
     m_hImageName.insert(pair<EmTexture*,string>(  (*i).second, (*i).first ));
   }
-#endif    // TODO ALLEGRO
   //EM_CERR("- TextureUtil::reloadTextures");
   //cout<<"- TextureUtil::reloadTextures"<<endl;
 }
@@ -133,7 +120,6 @@ void TextureUtil::getFilename(list<string> & files) {
 void TextureUtil::initGrx() {
   Config * config = Config::getInstance();
 
-#if EM_USE_SDL
   cerr << "Initing SDL" << endl << endl;
   if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
     cerr << "Couldn't initialize SDL video" << SDL_GetError() << endl;
@@ -220,63 +206,10 @@ void TextureUtil::initGrx() {
   cerr << "SDL_GL_DOUBLEBUFFER: " << value << endl << endl;
 
   this->resizeView(config->getWidth(), config->getHeight());
-#endif // EM_USE_SDL
-
-#if EM_USE_ALLEGRO
-  //config->setSize(320, 240);
-
-  allegro_init();
-  install_keyboard();
-  install_timer();
-  install_mouse();
-
-  COLOR_MAP colorMap;
-  RGB_MAP rgbMap;
-  COLOR_MAP transMap;
-
-  RGB* paPalette = (RGB*) calloc(256, sizeof(RGB));
-  generate_332_palette(paPalette);
-  // create rgb table
-  create_rgb_table(&rgbMap, paPalette, NULL);
-  rgb_map = &rgbMap;
-  // create light table and setup the truecolor blending functions.
-  create_light_table(&colorMap, paPalette, 0, 0, 0, NULL);
-  color_map = &colorMap;
-  // texture and flat polygons are 50% transparent
-  create_trans_table(&transMap, paPalette, 128, 128, 128, NULL);
-  set_trans_blender(0, 0, 0, 128);
-  // set the graphics mode
-  int tc = GFX_AUTODETECT_WINDOWED, tw = config->getWidth();
-  int th = config->getHeight(), tbpp = 16;
-  /*
-    set_gfx_mode(GFX_SAFE, 320, 200, 0, 0);
-    set_palette(desktop_palette);
-
-    if (!gfx_mode_select_ex(&tc, &tw, &th, &tbpp)) {
-    allegro_exit();
-    cerr << "Error setting safe graphics mode" << endl;
-    }
-  */
-  set_color_depth(tbpp);
-  if (set_gfx_mode(tc, tw, th, 0, 0) != 0) {
-    allegro_exit();
-    cerr << "Error setting graphics mode " << endl << allegro_error << endl;
-  }
-  set_palette(paPalette);
-  config->setSize(tw, th);
-  set_projection_viewport(0, 0, tw, th);
-  // Create back buffer.
-  backbuffer = create_bitmap(tw, th);
-  clear(backbuffer);
-  zbuffer = create_zbuffer(backbuffer);
-  set_zbuffer(zbuffer);
-  clear_zbuffer(zbuffer, 0);
-#endif // EM_USE_ALLEGRO
 }
 
 void TextureUtil::stopGrx() {
   cerr << "Stopping graphics...";
-#if EM_USE_SDL
   if(m_SDLWindow != NULL)
   {
       SDL_GL_DeleteContext(m_glContext);
@@ -284,10 +217,7 @@ void TextureUtil::stopGrx() {
       m_SDLWindow = NULL;
   }
   SDL_Quit();
-#endif
-#if EM_USE_ALLEGRO
-  allegro_exit();
-#endif
+
   cerr << "ok." << endl;
 }
 
@@ -296,13 +226,10 @@ void TextureUtil::setClearColor(float r, float g, float b, float a) {
   m_colClear.g = g;
   m_colClear.b = b;
   m_colClear.a = a;
-#if EM_USE_SDL
   glClearColor(m_colClear.r, m_colClear.g, m_colClear.b, m_colClear.a);
-#endif
 }
 
 void TextureUtil::resizeView(unsigned int w, unsigned int h) {
-#if EM_USE_SDL
   glViewport(0, 0, (GLsizei) w, (GLsizei) h);
 
   glClearColor(m_colClear.r, m_colClear.g, m_colClear.b, m_colClear.a);
@@ -326,27 +253,15 @@ void TextureUtil::resizeView(unsigned int w, unsigned int h) {
 #if OPENGL_LIGHTS
   glEnable(GL_LIGHTING);
 #endif
-
-#endif // EM_USE_SDL
 }
 
 
 EmImage* TextureUtil::loadImage(const char* filename) {
-#if EM_USE_SDL
   struct_image * image = loadP(filename);
   if (image == NULL) {
     cerr << "TextureUtil::loadImage unable to load " << filename << endl;
   }
   return image;
-#endif // EM_USE_SDL
-#if EM_USE_ALLEGRO
-  RGB pal[256];
-  BITMAP * bm = load_bitmap(filename, pal);
-  if (bm == NULL) {
-    cerr << "TextareUtil::loadImage unable to load " << filename << " : " << allegro_error << endl;
-  }
-  return bm;
-#endif // EM_USE_ALLEGRO
 }
 int TextureUtil::genTexture( char const * const filename,
                              EmTexture * const texture)
@@ -354,7 +269,6 @@ int TextureUtil::genTexture( char const * const filename,
   //cout<<"+ Texture::genTexture : "<<filename<<endl;
   *texture = 0;
 
-#if EM_USE_SDL
   // Load Texture
   struct_image* image = 0;
 
@@ -393,7 +307,6 @@ int TextureUtil::genTexture( char const * const filename,
   //    EM_COUT("bytes per pixel " << (int)image->format->BytesPerPixel, 1);
   //    EM_COUT("bits per pixel " << (int)image->format->BitsPerPixel, 1);
 
-#endif
   EM_COUT("- Texture::genTexture : "<<filename<<hex<<texture,0);
   return 1;
 }
@@ -401,7 +314,6 @@ int TextureUtil::genTexture( char const * const filename,
 
 EmTexture* TextureUtil::loadTexture(const char* filename) {
   EmTexture* texture = 0;
-#if EM_USE_SDL
   // look if the texture is already loaded
   if (m_hEmTexture.find(string(filename)) != m_hEmTexture.end()) {
     EM_COUT("TextureUtil::loadTexture found texture "
@@ -420,17 +332,6 @@ EmTexture* TextureUtil::loadTexture(const char* filename) {
   m_hEmTexture.insert(pair<string, EmTexture*>(string(filename), texture));
   m_hImageName.insert(pair<EmTexture*, string>(texture, string(filename)));
   //cout<<"- TextureUtil::loadTexture"<<endl;
-  return texture;
-#endif // EM_USE_SDL
-#if EM_USE_ALLEGRO
-  RGB pal[256];
-  BITMAP * bm = load_bitmap(filename, pal);
-  if (bm == NULL) {
-    cerr << "TextureUtil::loadTexture Unable to load "
-         << filename << " : " << allegro_error << endl;
-  }
-  return bm;
-#endif // EM_USE_ALLEGRO
   return texture;
 }
 

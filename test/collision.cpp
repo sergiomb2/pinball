@@ -30,7 +30,7 @@ System: AMD K6-II 500Mhz (83.3Mhz bus)
         Voodoo 3 PCI 16 Mb (85Hz vrate)
         640x480 windowed
 Compile: -g -W -Wall -O2
-Defines: EM_DEBUG EM_USE_SDL
+Defines: EM_DEBUG
 Use:     -nosound
 
 20020604: 53 (forgott -nosound)
@@ -48,7 +48,7 @@ System: AMD K6-II 500Mhz (83.3Mhz bus)
         Voodoo 3 PCI 16 Mb (85Hz vrate)
         320x240 windowed
 Compile: -g -W -Wall -O2
-Defines: EM_DEBUG EM_USE_ALLEGRO
+Defines: EM_DEBUG
 
 20020701: 23
 
@@ -164,6 +164,3 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
-#if EM_USE_ALLEGRO
-END_OF_MAIN();
-#endif
