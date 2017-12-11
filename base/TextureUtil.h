@@ -15,7 +15,6 @@
 #error "Must include Private.h before Config.h"
 #endif
 
-#if EM_USE_SDL
 #include <SDL_opengl.h>
 
 typedef struct {
@@ -27,16 +26,6 @@ typedef struct {
 
 #define EmImage struct_image
 #define EmTexture GLuint
-#endif // EM_USE_SDL
-
-#if EM_USE_ALLEGRO
-#define EmImage BITMAP
-#define EmTexture BITMAP
-
-#include <allegro.h>
-extern BITMAP * backbuffer;
-extern ZBUFFER * zbuffer;
-#endif // EM_USE_ALLEGRO
 
 #define EM_RIGHT 0.8f
 #define EM_UP    0.6f

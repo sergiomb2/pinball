@@ -45,31 +45,16 @@ void EmFont::loadFont(const char * filename) {
     cerr << "Font file not found: " << filename << endl;
     return;
   }
-#if EM_USE_SDL
   m_iSize = 32;
-#endif
-#if EM_USE_ALLEGRO
-  m_iSize = (m_Texture->w >> 3);
-#endif
 }
 
 /*
 float EmFont::getRelativeSizeX() {
-#if EM_USE_SDL
 return 0.06f;
-#endif
-#if EM_USE_ALLEGRO
-return 0.05f;
-#endif
 }
 
 float EmFont::getRelativeSizeY() {
-#if EM_USE_SDL
 return 0.08f;
-#endif
-#if EM_USE_ALLEGRO
-return 0.08f;
-#endif
 }
 */
 
@@ -79,7 +64,6 @@ void EmFont::printRow(const char * buffer, float row) {
     cerr << "No font defined" << endl;
     return;
   }
-#if EM_USE_SDL
   if (row > -0.0001f) {
     // count rows from top of screen
     this->print(buffer, -EM_RIGHT, EM_UP - row*EM_FONTSIZE_Y);
@@ -87,15 +71,6 @@ void EmFont::printRow(const char * buffer, float row) {
     // count rows from bottom of screen
     this->print(buffer, -EM_RIGHT, -EM_UP - row*EM_FONTSIZE_Y);
   }
-#endif
-#if EM_USE_ALLEGRO
-  if (row > -0.0001f) {
-    this->print(buffer, 0, (int)(row*(float)p_Config->getHeight()*EM_FONTSIZE_Y));
-  } else {
-    this->print(buffer, 0, (int)(p_Config->getHeight() +
-				 row*(float)p_Config->getHeight()*EM_FONTSIZE_Y));
-  }
-#endif
 }
 
 void EmFont::printRowCenter(const char * buffer, float row) {
@@ -104,28 +79,13 @@ void EmFont::printRowCenter(const char * buffer, float row) {
     cerr << "No font defined" << endl;
     return;
   }
-#if EM_USE_SDL
   if (row > -0.0001f) {
     this->print(buffer, -(float)strlen(buffer)*EM_FONTSIZE_X/2, EM_UP - row*EM_FONTSIZE_Y);
   } else {
     this->print(buffer, -(float)strlen(buffer)*EM_FONTSIZE_X/2, -EM_UP - row*EM_FONTSIZE_Y);
   }
-#endif
-#if EM_USE_ALLEGRO
-  if (row > -0.0001f) {
-    this->print(buffer, p_Config->getWidthDiv2() - 
-		(int)((float)strlen(buffer)*(float)p_Config->getHeightDiv2()*EM_FONTSIZE_Y), 
-		(int)(row*(float)p_Config->getHeight()*EM_FONTSIZE_Y));
-  } else {
-    this->print(buffer, p_Config->getWidthDiv2() - 
-		(int)((float)strlen(buffer)*(float)p_Config->getHeightDiv2()*EM_FONTSIZE_Y),
-		(int)(p_Config->getHeight() + 
-		      (int)(row*(float)p_Config->getHeight()*EM_FONTSIZE_Y)));
-  }
-#endif
 }
 
-#if EM_USE_SDL
 void EmFont::print(const char * buffer, float x, float y) {
   // TODO don't need this check as the function is protected
   if (buffer == NULL) return;
@@ -184,43 +144,4 @@ void EmFont::print(const char * buffer, float x, float y) {
     //			cerr << "sork" << buffer[a] << endl;
   }
 }
-#endif // EM_USE_SDL
 
-#if EM_USE_ALLEGRO
-void EmFont::print(const char * buffer, int x, int y) {
-  // TODO don't need this check as the function is protected
-  if (buffer == NULL) return;
-  if (m_Texture == NULL) {
-    cerr << "No font defined" << endl;
-    return;
-  }
-  int realsizeX = (int)((float)p_Config->getWidth()*EM_FONTSIZE_X);
-  int realsizeY = (int)((float)p_Config->getHeight()*EM_FONTSIZE_Y);
-  for (int a=0; a<255 && buffer[a] != 0 && buffer[a] != 10; a++) {
-    int b=buffer[a];
-    int c=36;
-    if (47<b && b<58) { // a number
-      c = b - 48;
-    } else if (64<b && b<91) { // a big character
-      c = b - 65 + 10;
-    } else if (96<b && b<123) {	// a small character
-      c = b - 97 + 10;
-    } else if (32<b && b<48) { // special character
-      c = b - 32 + 35;
-    } else if (57<b && b<65) { // special character
-      c = b - 57 + 50;
-    } else if (b==32) {	// space
-      c=63;
-    } else {
-      c=56;
-    }
-    // (c & 0x7) is the column and (c >> 3) is the row, multiply them with font size
-    int u = (c & 0x7) * m_iSize;
-    int v = (c >> 3) * m_iSize;
-
-    //cerr << "x " << u << " y " << v << endl;
-    masked_stretch_blit(m_Texture, backbuffer, u, v, m_iSize, m_iSize,
-			x + a*realsizeX, y, realsizeX, realsizeY);
-  }	
-}
-#endif // EM_USE_ALLEGRO

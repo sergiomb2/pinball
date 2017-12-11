@@ -32,7 +32,6 @@ SoundUtil* SoundUtil::getInstance() {
 
 int SoundUtil::initSound()
 {
-#if EM_USE_SDL
   int audio_rate      = EM_AUDIO_FREQ;
   Uint16 audio_format = EM_AUDIO_FORMAT;
   int audio_channels  = EM_AUDIO_CHANNELS;
@@ -61,17 +60,6 @@ int SoundUtil::initSound()
   m_bInited = true;
 
   return 0;
-#endif
-  
-#if EM_USE_ALLEGRO
-  if (install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, NULL) < 0) {
-    cerr << "Couldn't open audio: " << allegro_error << endl;
-    return -1;
-  }
-  cerr << "Opened audio" << endl << endl;
-  m_bInited = true;
-  return 0;
-#endif
 }
 
 void SoundUtil::stopSound() {
@@ -89,10 +77,10 @@ void SoundUtil::stopSound() {
   // 	for (; musiciter != musicend; ++musiciter) {
   // 		(*musiciter) = NULL;
   // 	}
-#if EM_USE_SDL
+
   Mix_CloseAudio();
   SDL_QuitSubSystem(SDL_INIT_AUDIO);
-#endif
+
   cerr << "ok." << endl;
   m_bInited = false;
   m_iLoopingMusic = -1;
@@ -116,15 +104,11 @@ void SoundUtil::applyConfigVolume()
       {
 	if (Config::getInstance()->getMusic() == 0)
 	{
-#if EM_USE_SDL
 	  Mix_HaltMusic();
 	  m_iLoopingMusic = -1;
-#endif
 	}
-#if EM_USE_SDL
 	Mix_Volume(-1, Config::getInstance()->getSound()*8);
 	Mix_VolumeMusic(Config::getInstance()->getMusic()*8);
-#endif
       }
       else
       {
@@ -160,15 +144,10 @@ int SoundUtil::loadSample(const char* filename)
     return (*element).second;
   }
   
-#if EM_USE_SDL
   Mix_Chunk * wave = Mix_LoadWAV(filename);
   // Error message if we can't load wave file
   if (wave == NULL && m_bInited)
     cerr << "ERROR Mix_LoadWAV: " << Mix_GetError() << endl;
-#endif
-#if EM_USE_ALLEGRO
-  SAMPLE* wave = load_sample(filename);
-#endif
   
   m_vEmSample.push_back(wave);
   int sound = m_vEmSample.size()-1;
@@ -211,12 +190,7 @@ int SoundUtil::loadMusic(const char * filename) {
     return (*element).second;
   }
   
-#if EM_USE_SDL
   Mix_Music * music = Mix_LoadMUS(filename);
-#endif
-#if EM_USE_ALLEGRO
-  MIDI * music = load_midi(filename);
-#endif
   
   m_vEmMusic.push_back(music);
   int sound = m_vEmMusic.size()-1;
@@ -234,16 +208,9 @@ void SoundUtil::playSample(int sound, bool loop) {
   if (Config::getInstance()->getSound() == 0) return;
   if (sound < 0 || sound >= (signed)m_vEmSample.size()) return;
   EM_COUT("SoundUtil::playSample " << sound, 1);
-#if EM_USE_SDL
   if (m_vEmSample[sound] != NULL) {
     Mix_PlayChannel(-1, m_vEmSample[sound], (loop ? -1 : 0));
   }
-#endif // EM_USE_SDL
-#if EM_USE_ALLEGRO
-  if (m_vEmSample[sound] != NULL) {
-    play_sample(m_vEmSample[sound], 255, 127, 1000, (int)loop);
-  }
-#endif
 }
 
 void SoundUtil::playMusic(int music, bool loop) {
@@ -253,37 +220,24 @@ void SoundUtil::playMusic(int music, bool loop) {
   if (loop && m_iLoopingMusic == music) return;
   m_iLoopingMusic = music;
   EM_COUT("SoundUtil::playMusic " << music, 1);
-#if EM_USE_SDL
   Mix_HaltMusic();
   if (m_vEmMusic[music] != NULL) {
     Mix_PlayMusic(m_vEmMusic[music], (loop ? -1 : 0));
   }
-#endif
-#if EM_USE_ALLEGRO
-  if (m_vEmMusic[music] != NULL) {
-    play_midi(m_vEmMusic[music], (int)loop);
-  }
-#endif
 }
 
 void SoundUtil::stopMusic() {
   if (!m_bInited) return;
-#if EM_USE_SDL
   Mix_HaltMusic();
   m_iLoopingMusic = -1;
-#endif
 }
 
 void SoundUtil::pauseMusic() {
   if (!m_bInited) return;
-#if EM_USE_SDL
   Mix_PauseMusic();
-#endif
 }
 
 void SoundUtil::resumeMusic() {
   if (!m_bInited) return;
-#if EM_USE_SDL
   Mix_ResumeMusic();
-#endif
 }
