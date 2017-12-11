@@ -157,8 +157,6 @@ protected:
     return EM_MENU_NOP;
   }
   const char * getText() {
-    stringstream stm; //TODO
-    stm.clear();
     string name(m_Name);
     const char * keyname = Config::getInstance()->getKeyCommonName(Config::getInstance()->getKey(name));
     string key;
@@ -174,10 +172,13 @@ protected:
     while (key.size() < 12) {
       key = " " + key;
     }
-    stm << name << key << '\0';
-    string text = stm.str();
-    return text.c_str();
+
+    m_textBuffer = name + key;
+    return m_textBuffer.c_str();
   }
+  
+private:
+    std::string m_textBuffer;
 };
 
 
