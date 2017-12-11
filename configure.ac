@@ -89,13 +89,7 @@ AC_DEFINE_UNQUOTED(EM_LOCALIZATION_DIR, "$EM_LOCALIZATION_PATH", [Localization d
 AC_ARG_ENABLE(libtest, [  --disable-libtest     SDL2_image _mixer libtest work around ], , enable_libtest=yes)
 
 dnl *******************************************
-dnl Allegro or SDL version ********************
-
-AC_ARG_WITH(allegro, [  --with-allegro          use allegro (software rendering) instead of SDL and OpenGL], use_allegro="yes", use_allegro="no")
-
-if test x"$use_allegro" = "xno"; then
-
-AC_DEFINE(EM_USE_SDL, [1], [Shall we use SDL and OpenGL])
+dnl SDL version ********************
 
 dnl *******************************************
 dnl OPENGL ************************************
@@ -191,21 +185,7 @@ if test x"enable_libtest" = x"yes"; then
 fi
 LIBS="$LIBS -lSDL2_mixer"
 
-dnl else use allegro instead of sdl
-
-else
-
-AC_DEFINE(EM_USE_ALLEGRO, [1], [Shall we use allegro - software rendering])
-
-dnl *******************************************
-dnl ALLEGRO ***********************************
-AM_PATH_ALLEGRO(4.0.0, : , AC_MSG_ERROR([*** Allegro version 4.0.0 not found! Make sure you have the development package of Allegro installed - (www.talula.demon.co.uk/allegro) - or try to use the --with-allegro-prefix option]) )
-CFLAGS="$CFLAGS $ALLEGRO_CFLAGS"
-CPPFLAGS="$CPPFLAGS $ALLEGRO_CFLAGS"
-LIBS="$LIBS $ALLEGRO_LIBS"
-
-fi 
-dnl End Allegro or SDL *************************
+dnl End SDL *************************
 
 
 dnl ********************************************
