@@ -50,13 +50,8 @@ int main(int argc, char *argv[]) {
 	
   // Load a font
   EmFont* font = EmFont::getInstance();
-#if EM_USE_SDL
   font->loadFont("data/font_34.png");
-#endif
-#if EM_USE_ALLEGRO
-  font->loadFont("data/font_35.pcx");
-#endif
-	
+
   // Create the menu
   MenuSub* menumain = new MenuSub("main", engine);
 
@@ -104,6 +99,3 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-#if EM_USE_ALLEGRO
-END_OF_MAIN();
-#endif
