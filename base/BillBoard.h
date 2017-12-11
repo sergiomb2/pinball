@@ -37,7 +37,6 @@ class BillBoard {
 	Vertex3D m_vtxAlign;
  private:
 	friend class OpenGLVisitor;
-	friend class AllegroVisitor;
 	
 	EmTexture* m_Texture;
 	Group* p_Parent;

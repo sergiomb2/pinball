@@ -252,7 +252,6 @@ using namespace std;
 #define EM_USE_QUADTREE 1
 #define EM_USE_SDLIMAGE 1
 #define EM_USE_SDLMIXER 1
-#define EM_USE_SDL 1
 #define EM_USE_SHARED_COLOR 1
 #define HAVE_MEMORY_H 1
 #define HAVE_STDINT_H 1

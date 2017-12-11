@@ -21,15 +21,10 @@
 #error "Must include Private.h before Config.h"
 #endif
 
-#if EM_USE_SDL
 //#include <GL/gl.h>
 #include <SDL_opengl.h> //!+-rzr: better portability
 #define EM_LINEAR GL_LINEAR
 #define EM_NEAREST GL_NEAREST
-#else
-#define EM_LINEAR 0
-#define EM_NEAREST 1
-#endif
 
 #define CONFIG_LOCAL_HEIGHT_DEFAULT 480
 #define CONFIG_LOCAL_RATIO_DEFAULT 4./3.

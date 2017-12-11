@@ -13,11 +13,7 @@
 #include "Keyboard.h"
 #include "OpenGLVisitor.h"
 
-#if EM_USE_SDL
 #include <GL/gl.h>
-#else
-#warning This is a sdl specific test.
-#endif
 
 #define VSIZE 8
 #define PSIZE 6
@@ -57,7 +53,6 @@ Color cbuf[] = {
 int main(int argc, char *argv[]) {
   cerr << "Vertex array test, press space then esc to quit." << endl;
 
-#if EM_USE_SDL
   // Create the engine.
   Engine* engine = new Engine(argc, argv);
   engine->setLightning(0.7f, 0.1f);
@@ -129,10 +124,7 @@ int main(int argc, char *argv[]) {
   // polys == 5*5*5*6 = 750
   cerr << "fps " << Engine::getFps() << " polys 750 " << endl;
   delete(engine);
-#endif
+
   return 0;
 }
 
-#if EM_USE_ALLEGRO
-END_OF_MAIN();
-#endif

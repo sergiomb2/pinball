@@ -921,11 +921,6 @@ void Loader::readTexture(ifstream & file, istringstream & ist, Shape3D* shape) {
   EmReadCmp(file, ist, str, "{");
   this->readNextToken(file, ist, str);
 
-  // hack to load pcx files instead of png files for allegro
-#if EM_USE_ALLEGRO
-  str += ".pcx";
-#endif	
-
   string filename = string(Config::getInstance()->getDataSubDir()) + "/" + str;
   EmTexture * tex = TextureUtil::getInstance()->loadTexture(filename.c_str());
   if (tex != NULL) {

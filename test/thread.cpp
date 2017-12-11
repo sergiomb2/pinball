@@ -53,6 +53,3 @@ int main(int argc, char *argv[]) {
 #endif
 }
 
-#if EM_USE_ALLEGRO
-END_OF_MAIN();
-#endif

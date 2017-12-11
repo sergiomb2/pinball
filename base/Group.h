@@ -121,7 +121,6 @@ class Group : public Node {
  private:
   friend class BehaviorVisitor;
   friend class AlignVisitor;
-  friend class AllegroVisitor;
   friend class PNormalVisitor;
   friend class TransformVisitor;
   friend class SoundVisitor;

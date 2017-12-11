@@ -26,27 +26,6 @@
 #include "config-rzr.h" // in a separate file until a better integration
 #endif //!-rzr 
 
-#ifndef EM_USE_SDL
-#define EM_USE_SDL 0
-#endif
-
-#ifndef EM_USE_ALLEGRO
-#define EM_USE_ALLEGRO 0
-#endif
-
-#if EM_USE_SDL
-#if EM_USE_ALLEGRO
-#error "Can't compile sdl and allegro at the same time."
-#endif
-#endif
-
-#if EM_USE_SDL
-#else
-#if EM_USE_ALLEGRO
-#else
-#error "Must specify allegro or sdl."
-#endif
-#endif
 #ifndef  WIN32 // not for msvc, codewarrior // can't be empty for codewarrior
 namespace std {}; // !+-rzr: must be definied before used  (msvc)
 #endif
@@ -90,7 +69,6 @@ bool operator == (const PolygonEdge & peA, const PolygonEdge & peB) {
 	#define EM_COUT_D(a, level)
 #endif
 
-#if EM_USE_SDL
 #if EM_DEBUG
 #define EM_GLERROR(a) \
 	GLenum error = glGetError(); \
@@ -101,7 +79,6 @@ bool operator == (const PolygonEdge & peA, const PolygonEdge & peB) {
 #else
 #define EM_GLERROR(a)
 #endif
-#endif // EM_USE_SDL
 
 #if EM_DEBUG
 #define EmAssert(a, b)	\

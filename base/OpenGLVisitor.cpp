@@ -49,7 +49,7 @@ OpenGLVisitor * OpenGLVisitor::getInstance() {
 }
 
 void OpenGLVisitor::empty() {
-#if EM_USE_SDL
+
 #if EM_VERTEXARRAY
   glEnableClientState(GL_VERTEX_ARRAY);
   glEnableClientState(GL_COLOR_ARRAY);
@@ -85,11 +85,10 @@ void OpenGLVisitor::empty() {
     glDisable(GL_BLEND);
   } break;
   }
-#endif
 }
 
 void OpenGLVisitor::visit(Group* g) {
-#if EM_USE_SDL
+
   int filter = Config::getInstance()->getGLFilter();
   //bool lights = Config::getInstance()->useLights();
 
@@ -444,6 +443,5 @@ void OpenGLVisitor::visit(Group* g) {
   } break;
 
   }
-#endif // EM_USE_SDL
 }
 

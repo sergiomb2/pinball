@@ -18,7 +18,6 @@
 #error Must include Private.h before SoundUtil.h
 #endif
 
-#if EM_USE_SDL
 #include <SDL.h>
 #include <SDL_mixer.h>
 
@@ -28,13 +27,6 @@
 #define EM_AUDIO_FREQ 22050
 #define EM_AUDIO_FORMAT AUDIO_S16
 #define EM_AUDIO_CHANNELS 2
-#endif // EM_USE_SDL
-
-#if EM_USE_ALLEGRO
-#include <allegro.h>
-#define EmSample SAMPLE
-#define EmMusic MIDI
-#endif
 
 /** Singleton class for loading and playing samples */
 class SoundUtil {

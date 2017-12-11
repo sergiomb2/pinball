@@ -16,15 +16,8 @@
 #error Must include Private.h before EmFont.h
 #endif
 
-#if EM_USE_SDL
 #define EM_FONTSIZE_X 0.06f*EM_RIGHT
 #define EM_FONTSIZE_Y 0.08f*EM_UP
-#endif
-
-#if EM_USE_ALLEGRO
-#define EM_FONTSIZE_X 0.03f
-#define EM_FONTSIZE_Y 0.04f
-#endif
 
 #include "TextureUtil.h"
 
@@ -42,14 +35,8 @@ class EmFont {
   /** If row is negative the row will be counted from bottom of screen. */
   void printRowCenter(const char * buffer, float row);
  protected:
-#if EM_USE_SDL
   /** With OpenGL -1,1 is upper left. 1,-1 is lower right. */
   void print(const char * buffer, float x, float y);
-#endif
-#if EM_USE_ALLEGRO
-  /** With allegro 0,0 is upper lefter. The screen size determines the lower right. */
-  void print(const char * buffer, int x, int y);
-#endif
   EmFont();
  private:
   //EmImage * m_Font;

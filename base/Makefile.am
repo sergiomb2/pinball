@@ -9,7 +9,6 @@ AM_CPPFLAGS = -I../addon
 
 libemilia_base_a_SOURCES = \
 AlignVisitor.cpp \
-AllegroVisitor.cpp \
 AmbientLightVisitor.cpp \
 Behavior.cpp \
 BehaviorVisitor.cpp \
@@ -40,7 +39,6 @@ TransformVisitor.cpp
 
 pininclude_HEADERS = \
 AlignVisitor.h \
-AllegroVisitor.h \
 AmbientLightVisitor.h \
 BaseTest.h \
 Behavior.h \
