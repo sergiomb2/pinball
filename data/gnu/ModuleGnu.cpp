@@ -6,6 +6,13 @@
     copyright            : (C) 2001 by Henrik Enqvist
                            (C) 2013 Ben Asselstine
     email                : henqvist@excite.com
+
+
+    ========================= Modifications =========================
+
+        Apr. 6, 2017:
+            Send the "game_start" signal. (c30zD)
+
 ***************************************************************************/
 
 #include "Private.h"

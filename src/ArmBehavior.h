@@ -4,6 +4,13 @@
     begin                : Wed Jan 26 2000
     copyright            : (C) 2000 by 
     email                : 
+
+
+    ========================= Modifications =========================
+
+        Apr. 6, 2017:
+            Replace name of "m_bOn" with "m_bActive". (c30zD)
+
  ***************************************************************************/
 
 #ifndef ARMBEHAVIOR_H
