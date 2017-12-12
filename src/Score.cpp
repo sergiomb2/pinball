@@ -9,6 +9,7 @@
     modifs
     20030510  pnf        : Display message ExtraBall when flag activated
                             for current ball.
+    20171209  c30zD      : Correctly display the "reset" and "launch" keys.
 
 ***************************************************************************/
 
