@@ -4,6 +4,15 @@
     begin                : Wed Jan 26 2000
     copyright            : (C) 2000 by Henrik Enqvist
     email                : henqvist@excite.com
+
+
+    ========================= Modifications =========================
+
+        Apr. 6, 2017:
+            - Replace name of "m_bOn" with "m_bActive". (c30zD)
+            - Add events for game over and game start signals. (c30zD)
+            - Modify function doArm to also use m_bActive. (c30zD)
+
  ***************************************************************************/
 
 #include "Private.h"
