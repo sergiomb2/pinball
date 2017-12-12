@@ -5,6 +5,13 @@
     begin                : Thu Mar 9 2000
     copyright            : (C) 2000-2016 by Henrik Enqvist
     email                : henqvist@excite.com
+
+
+    ========================= Modifications =========================
+
+        Dec. 9, 2017:
+            Reset key is no longer hard-coded. (c30zD)
+
 ***************************************************************************/
 
 #include <fstream>

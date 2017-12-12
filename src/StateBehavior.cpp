@@ -4,6 +4,13 @@
     begin                : Thu Jan 25 2001
     copyright            : (C) 2001 by Henrik Enqvist
     email                : henqvist@excite.com
+
+
+    ========================= Modifications =========================
+
+        Apr. 4, 2017:
+            Clear the keyboard on game reset. (c30zD)
+
 ***************************************************************************/
 
 #include "Private.h"
