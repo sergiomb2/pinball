@@ -5,14 +5,20 @@
     begin                : Thu Mar 9 2000
     copyright            : (C) 2000-2016 by Henrik Enqvist
     email                : henqvist@excite.com
+
+
+    ========================= Modifications =========================
+
+        Dec. 9, 2017:
+            Reset key is no longer hard-coded. (c30zD)
+
 ***************************************************************************/
 
 #include <fstream>
 #include <string>
 #include <iostream>
 
-//#include <sstream>
-#include <strstream> //TODO:
+#include <sstream>
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -59,9 +65,7 @@
 #include "BallGroup.h"
 #include "Table.h"
 
-#if EM_USE_SDL
 #include <SDL.h>
-#endif
 
 #define AMBIENT 0.05f
 
@@ -151,8 +155,6 @@ protected:
     return EM_MENU_NOP;
   }
   const char * getText() {
-    ostrstream stm; //TODO
-    stm.clear();
     string name(m_Name);
     const char * keyname = Config::getInstance()->getKeyCommonName(Config::getInstance()->getKey(name));
     string key;
@@ -168,10 +170,13 @@ protected:
     while (key.size() < 12) {
       key = " " + key;
     }
-    stm << name << key << '\0';
-    string text = stm.str();
-    return text.c_str();
+
+    m_textBuffer = name + key;
+    return m_textBuffer.c_str();
   }
+  
+private:
+    std::string m_textBuffer;
 };
 
 
@@ -210,16 +215,12 @@ protected:
     // fullscreen
     if (menuscreen->getCurrent() == 0) {
       if (config->useFullScreen() == false) {
-#if EM_USE_SDL
-        SDL_WM_ToggleFullScreen(SDL_GetVideoSurface());
-#endif
+        SDL_SetWindowFullscreen(SDL_GetMouseFocus(), SDL_WINDOW_FULLSCREEN);
       }
       config->setFullScreen(true);
     } else {
       if (config->useFullScreen() == true) {
-#if EM_USE_SDL
-        SDL_WM_ToggleFullScreen(SDL_GetVideoSurface());
-#endif
+        SDL_SetWindowFullscreen(SDL_GetMouseFocus(), 0);
       }
       config->setFullScreen(false);
     }
@@ -271,11 +272,7 @@ protected:
       }
       
       if (  (config->getWidth() != w)  || (config->getHeight() != h) ) {
-#ifdef  EM_USE_SDL
-	SDL_SetVideoMode(w, h, config->getBpp(),
-			 SDL_OPENGL
-			 | (config->useFullScreen() ? SDL_FULLSCREEN : 0));
-#endif // SDL
+	SDL_SetWindowSize(TextureUtil::getInstance()->getSDLWindow(), w, h);
 	TextureUtil::getInstance()->resizeView(w, h);
 	
 #ifdef WIN32 //~rzr:{  //cout<<("Workround bug (for WIN32) + macosx etc");
@@ -538,9 +535,7 @@ MenuItem* createMenus(Engine * engine) {
   menucfg->addMenuItem(menukey);
 
   string filename = string(Config::getInstance()->getDataSubDir()) + "/splash.png";
-#if EM_USE_ALLEGRO
-  filename += ".pcx";
-#endif
+
   EmTexture * tex = TextureUtil::getInstance()->loadTexture(filename.c_str());
   if (tex != NULL) {
     menu->setBackground(tex);
@@ -789,12 +784,7 @@ int main(int argc, char *argv[]) {
     }
     engine->setLightning(direct, AMBIENT);
 
-#if EM_USE_SDL
     string filename = Config::getInstance()->getDataDir() + string("/font_34.png");
-#endif
-#if EM_USE_ALLEGRO
-    string filename = Config::getInstance()->getDataDir() + string("/font_35.pcx");
-#endif
 
     EmFont::getInstance()->loadFont(filename.c_str());
 
@@ -824,7 +814,7 @@ int main(int argc, char *argv[]) {
         SoundUtil::getInstance()->resumeMusic();
       }
 
-      if (Keyboard::isKeyDown(SDLK_r)) {
+      if (Keyboard::isKeyDown(Config::getInstance()->getKey("reset"))) {
         SendSignal(PBL_SIG_RESET_ALL, 0, engine, NULL);
       }
 
@@ -857,10 +847,6 @@ int main(int argc, char *argv[]) {
   }
   return EXIT_SUCCESS;
 }
-
-#if EM_USE_ALLEGRO
-END_OF_MAIN();
-#endif
 
 
 /// entry point function (main) for w32 codewarrior

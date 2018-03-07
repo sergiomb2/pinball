@@ -15,7 +15,6 @@
 #error "Must include Private.h before Config.h"
 #endif
 
-#if EM_USE_SDL
 #include <SDL_opengl.h>
 
 typedef struct {
@@ -27,16 +26,6 @@ typedef struct {
 
 #define EmImage struct_image
 #define EmTexture GLuint
-#endif // EM_USE_SDL
-
-#if EM_USE_ALLEGRO
-#define EmImage BITMAP
-#define EmTexture BITMAP
-
-#include <allegro.h>
-extern BITMAP * backbuffer;
-extern ZBUFFER * zbuffer;
-#endif // EM_USE_ALLEGRO
 
 #define EM_RIGHT 0.8f
 #define EM_UP    0.6f
@@ -48,6 +37,8 @@ extern ZBUFFER * zbuffer;
 #include <list>
 
 #include "EMath.h"
+
+class SDL_Window;
 
 /** Singleton class for initializing graphics and loading textures. */
 class TextureUtil {
@@ -67,6 +58,7 @@ public:
   const char * getTextureName(EmTexture * tex);
   void setClearColor(float r = 1, float g = 1, float b = 1, float a = 1);
   void getFilename(list<string>& filenames);
+  SDL_Window* getSDLWindow() const;
 private:
   /// load it also in openGL context
   int genTexture( char const * const filename, EmTexture * const texture);
@@ -74,6 +66,8 @@ private:
   map<string, EmTexture*> m_hEmTexture;
   static TextureUtil* p_TextureUtil;
   Color m_colClear;
+  SDL_Window* m_SDLWindow;
+  void* m_glContext;
 };
 
 #endif // TEXTUREUTIL_H

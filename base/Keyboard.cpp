@@ -10,9 +10,7 @@
 #include "Private.h"
 #include "Keyboard.h"
 
-#if EM_USE_SDL
-bool Keyboard::m_abKey[KEY_MAX];
-#endif
+std::map<SDL_Keycode, bool> Keyboard::m_keyStatus;
 
 Keyboard::Keyboard(){
 	this->clear();
@@ -22,33 +20,22 @@ Keyboard::~Keyboard(){
 }
 
 void Keyboard::poll() {
-#if EM_USE_SDL
   SDL_Event event;
   while(SDL_PollEvent(&event)) {
     if (event.type == SDL_KEYDOWN) {
-      m_abKey[event.key.keysym.sym] = true;
+      m_keyStatus[event.key.keysym.sym] = true;
     }
     if (event.type == SDL_KEYUP) {
-      m_abKey[event.key.keysym.sym] = false;
+      m_keyStatus[event.key.keysym.sym] = false;
     }
   }
-#endif
-#if EM_USE_ALLEGRO
-  poll_keyboard();
-#endif
 }
 
 void Keyboard::clear() {
-#if EM_USE_SDL
-  memset(m_abKey, false, KEY_MAX*sizeof(bool));
-#endif
-#if EM_USE_ALLEGRO
-  clear_keybuf();
-#endif
+  m_keyStatus.clear();
 }
 
 EMKey Keyboard::waitForKey() {
-#if EM_USE_SDL
   while(true) {
     SDL_Event event;
     SDL_WaitEvent(&event);
@@ -63,19 +50,10 @@ EMKey Keyboard::waitForKey() {
       return event.key.keysym.sym;
     }
   }
-#endif
-#if EM_USE_ALLEGRO
-  // TODO
-  return (readkey() >> 8);
-#endif
 }
 
 bool Keyboard::isKeyDown(int piKey) {
-  if (piKey < 0 || piKey >= KEY_MAX) return false;
-#if EM_USE_SDL
-  return m_abKey[piKey];
-#endif
-#if EM_USE_ALLEGRO
-  return key[piKey];
-#endif
+  if (piKey < 0) return false;
+  std::map<SDL_Keycode, bool>::iterator keyStatusIterator = m_keyStatus.find(piKey);
+  return keyStatusIterator != m_keyStatus.end() && keyStatusIterator->second;
 }

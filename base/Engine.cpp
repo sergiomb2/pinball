@@ -20,7 +20,6 @@
 #include "Camera.h"
 #include "Keyboard.h"
 #include "AlignVisitor.h"
-#include "AllegroVisitor.h"
 #include "AmbientLightVisitor.h"
 #include "BehaviorVisitor.h"
 #include "CollisionVisitor.h"
@@ -36,10 +35,8 @@
 #include "Profiler.h"
 
 // TODO Remove glu
-#if EM_USE_SDL
 #if EM_DEBUG
 #include <GL/glu.h>
-#endif
 #endif
 
 volatile int g_iStartTime = -1;
@@ -58,22 +55,7 @@ volatile unsigned int g_iMSeconds = 0;
 #define StopProfile()
 #endif
 
-#if EM_USE_ALLEGRO
-extern "C" {
-  void fctCallBack() {
-    g_iMSeconds += 10;
-  }
-  END_OF_FUNCTION(fctCallBack)
-}
-#endif
-
-#if EM_USE_SDL
 #define GET_TIME (signed)SDL_GetTicks()
-#endif
-
-#if EM_USE_ALLEGRO
-#define GET_TIME g_iMSeconds
-#endif
 
 float Engine::m_fFps = 0.0f;
 
@@ -84,20 +66,8 @@ Engine::Engine(int & argc, char *argv[]) {
   config->loadArgs(argc, argv);
   
   if (!config->useExternGL()) {
-#if EM_USE_SDL
     SDL_Init(SDL_INIT_TIMER);
-#endif
     TextureUtil::getInstance()->initGrx();
-#if EM_USE_ALLEGRO
-    LOCK_VARIABLE(g_iStartTime);
-    //LOCK_VARIABLE(g_iDesiredTime);
-    LOCK_VARIABLE(g_iLastRender);
-    LOCK_VARIABLE(g_iLoops);
-    LOCK_VARIABLE(g_iMSeconds);
-    LOCK_VARIABLE(g_fFps);
-    LOCK_FUNCTION(fctCallBack);
-    install_int(fctCallBack, 10); // 100 tick per sec
-#endif
   }
 	
   SoundUtil::getInstance()->applyConfigVolume();
@@ -121,10 +91,8 @@ Engine::~Engine() {
 }
 
 void Engine::stopEngine() {
-#if EM_USE_SDL
   SoundUtil::getInstance()->stopSound();
   TextureUtil::getInstance()->stopGrx();
-#endif
 
 #if EM_DEBUG
   extern float em_groups_m, em_shapes_m, em_bounds_m, em_polygons_m;
@@ -159,18 +127,11 @@ void Engine::setClearColor(float r, float g, float b, float a) {
 
 void Engine::clearScreen() {
   StartProfile(SWAP);
-#if EM_USE_SDL
   glDepthMask(GL_TRUE);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glColor3f(1, 1, 1);
   glLoadIdentity();
   //gluLookAt(0,0,0, 0,0,-1, 0,1,0);
-#endif
-
-#if EM_USE_ALLEGRO
-  clear_zbuffer(zbuffer, 0);
-  clear_bitmap(backbuffer);
-#endif
   StopProfile();
 }
 
@@ -181,7 +142,7 @@ void Engine::setLightning(float diffuse, float ambient) {
 
 void Engine::drawSplash(EmTexture * tex) {
 	if (tex == NULL) return;
-#if EM_USE_SDL
+
 	int filter = Config::getInstance()->getGLFilter();
 	if (filter == -1) return;
 	glDisable(GL_DEPTH_TEST);
@@ -207,13 +168,6 @@ void Engine::drawSplash(EmTexture * tex) {
 	glTexCoord2f(0, 1);
 	glVertex3f(-EM_RIGHT, -EM_UP, -1);
 	glEnd();
-#endif
-	// allegro todo
-#if EM_USE_ALLEGRO
-	// TODO fix static 256x256 image size
-	stretch_blit(tex, backbuffer, 0, 0, 256, 256, 0, 0, 
-							 Config::getInstance()->getWidth(), Config::getInstance()->getHeight());
-#endif	
 }
 
 void Engine::setEngineCamera(Group* g) {
@@ -253,7 +207,6 @@ void Engine::render() {
   // Draw screenr
   EM_COUT("Engine::render() render", 0);
   StartProfile(RENDER);
-#if EM_USE_SDL
   OpenGLVisitor::getInstance()->setMode(EM_GL_GCOL_TEX);
   OpenGLVisitor::getInstance()->empty();
   this->accept(OpenGLVisitor::getInstance());
@@ -262,18 +215,6 @@ void Engine::render() {
   this->accept(OpenGLVisitor::getInstance());
   OpenGLVisitor::getInstance()->setMode(EM_GL_CLEAN);
   OpenGLVisitor::getInstance()->empty();
-#endif
-
-#if EM_USE_ALLEGRO
-  AllegroVisitor::getInstance()->setMode(EM_ALLEGRO_GCOL_TEX);
-  AllegroVisitor::getInstance()->empty();
-  this->accept(AllegroVisitor::getInstance());
-  AllegroVisitor::getInstance()->setMode(EM_ALLEGRO_GCOL_TEX_TRANS);
-  AllegroVisitor::getInstance()->empty();
-  this->accept(AllegroVisitor::getInstance());
-  AllegroVisitor::getInstance()->setMode(EM_GL_CLEAN);
-  AllegroVisitor::getInstance()->empty();
-#endif
   StopProfile();
 }
 
@@ -282,14 +223,8 @@ void Engine::swap() {
   EM_COUT("Engine::swap()", 0);
   g_iLoops++;
   // Draw to screen.
-#if EM_USE_SDL
-  SDL_GL_SwapBuffers();
+  SDL_GL_SwapWindow(TextureUtil::getInstance()->getSDLWindow());
   EM_GLERROR(" In Engine::swap ");
-#endif
-
-#if EM_USE_ALLEGRO
-  blit(backbuffer, screen, 0, 0, 0, 0, Config::getInstance()->getWidth(), Config::getInstance()->getHeight());
-#endif
   StopProfile();
 }
 
@@ -326,12 +261,7 @@ void Engine::tick() {
 }
 
 void Engine::delay(int ms) {
-#if EM_USE_SDL
   SDL_Delay(ms);
-#endif
-#if EM_USE_ALLEGRO
-  rest(ms);
-#endif
 }
 
 bool Engine::nextTickFPS(int fps) {

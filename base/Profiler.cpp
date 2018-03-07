@@ -11,13 +11,7 @@
 #include "Profiler.h"
 #include <cstdlib>
 
-#if EM_USE_SDL
 #include "SDL.h"
-#endif
-
-#if EM_USE_ALLEGRO
-extern volatile unsigned int g_iMSeconds;
-#endif
 
 Profiler* Profiler::p_Profiler = NULL;
 
@@ -26,12 +20,7 @@ Profiler::Profiler() {
 		m_aProfile[a] = 0;
 	}
 	m_iCurrentProfile = 0;
-#if EM_USE_SDL
 	m_iCurrentTime = m_iStart = SDL_GetTicks();
-#endif
-#if EM_USE_ALLEGRO
-	m_iCurrentTime = m_iStart = g_iMSeconds;
-#endif
 }
 
 Profiler::~Profiler() {
@@ -48,30 +37,15 @@ Profiler* Profiler::getInstance() {
 void Profiler::startProfile(int i) {
 	if (i<0 || i>255) i = 0;
 	m_iCurrentProfile = i;
-#if EM_USE_SDL
 	m_iCurrentTime = SDL_GetTicks();
-#endif
-#if EM_USE_ALLEGRO
-	m_iCurrentTime = g_iMSeconds;
-#endif
 }
 
 void Profiler::stopProfile() {
-#if EM_USE_SDL
 	m_aProfile[m_iCurrentProfile] += (SDL_GetTicks() - m_iCurrentTime);
-#endif
-#if EM_USE_ALLEGRO
-	m_aProfile[m_iCurrentProfile] += (g_iMSeconds - m_iCurrentTime);
-#endif
 }
 
 void Profiler::printProfile() {
-#if EM_USE_SDL
 	unsigned int all = SDL_GetTicks() - m_iStart;
-#endif
-#if EM_USE_ALLEGRO
-	unsigned int all = g_iMSeconds - m_iStart;
-#endif
 	unsigned int total = 0;
 	for (int a=0; a<256; a++) {
 		total += m_aProfile[a];
