@@ -1,7 +1,7 @@
 dnl #                                               -*- Autoconf -*-
 dnl # Process this file with autoconf 2.53 to produce a configure script.
 dnl init autoconf and automake
-AC_INIT(pinball, 0.3.4.1)
+AC_INIT(pinball, 0.3.5)
 
 AC_CONFIG_HEADERS(pinconfig.h)
 LT_CONFIG_LTDL_DIR([libltdl])
