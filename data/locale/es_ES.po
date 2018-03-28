@@ -17,13 +17,16 @@
 #
 #
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
+# ¡ATENCIÓN TRADUCTORES! El programa Pinball no admite UTF-8: nada de acentos
+# u otros carácteres (supongo que tampoco la ñ). Esta es la razón de que
+# la traducción esté un poco «forzada».
 # Innocent De Marchi <tangram.peces@gmail.com>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: pinball 0.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-26 03:59+0100\n"
-"PO-Revision-Date: 2018-03-25 17:08+0200\n"
+"POT-Creation-Date: 2018-02-04 23:19+0000\n"
+"PO-Revision-Date: 2018-03-26 17:55+0200\n"
 "Last-Translator: Innocent De Marchi <tangram.peces@gmail.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -43,7 +46,7 @@ msgstr "tablero: "
 
 #: ../../src/Pinball.cpp:130
 msgid "No Table Loaded!"
-msgstr "¡No hay ningún tablero cargado!"
+msgstr "¡Sin tablero cargado!"
 
 #: ../../src/Pinball.cpp:133
 msgid "Hit any key for main menu..."
@@ -71,7 +74,7 @@ msgstr "ERROR"
 
 #: ../../src/Pinball.cpp:505
 msgid "main menu"
-msgstr "menú principal"
+msgstr "selector de opciones principal"
 
 #: ../../src/Pinball.cpp:507
 msgid "play"
@@ -91,7 +94,7 @@ msgstr "salir"
 
 #: ../../src/Pinball.cpp:526
 msgid "graphics"
-msgstr "gráficos"
+msgstr "pantalla"
 
 #: ../../src/Pinball.cpp:529
 msgid "audio"
@@ -107,7 +110,7 @@ msgstr "L-izq.. R-der. B-inf. F-Percutor N-golpe"
 
 #: ../../src/Pinball.cpp:611
 msgid "view:         classic"
-msgstr "vista:        clásica"
+msgstr "vista:      antigua"
 
 #: ../../src/Pinball.cpp:612
 msgid "view:   softly moving"
@@ -207,39 +210,39 @@ msgstr "ancho pantalla:  1920"
 
 #: ../../src/Pinball.cpp:652
 msgid "ratio:      0.5 (1/2)"
-msgstr "razón:    0,5 (1/2)"
+msgstr "largo/ancho: 0,5 (1/2)"
 
 #: ../../src/Pinball.cpp:659
 msgid "ratio:        1 (1/1)"
-msgstr "razón:       1 (1/1)"
+msgstr "largo/ancho:    1 (1/1)"
 
 #: ../../src/Pinball.cpp:660
 msgid "ratio:      1.2 (5/4)"
-msgstr "razón:    1,2 (5/4)"
+msgstr "largo/ancho:  1,2 (5/4)"
 
 #: ../../src/Pinball.cpp:661
 msgid "ratio:      1.3 (4/3)"
-msgstr "razón:    1,3 (4/3)"
+msgstr "largo/ancho:  1,3 (4/3)"
 
 #: ../../src/Pinball.cpp:662
 msgid "ratio:      1.5 (3/2)"
-msgstr "razón:    1,5 (3/2)"
+msgstr "largo/ancho:  1,5 (3/2)"
 
 #: ../../src/Pinball.cpp:663
 msgid "ratio:    1.6 (16/10)"
-msgstr "razón:  1,6 (16/10)"
+msgstr "largo/ancho:1,6 (16/10)"
 
 #: ../../src/Pinball.cpp:664
 msgid "ratio:     1.7 (16/9)"
-msgstr "razón:    1,7 (16/9)"
+msgstr "largo/ancho:1,7 (16/9)"
 
 #: ../../src/Pinball.cpp:665
 msgid "ratio:      1.8 (9/5)"
-msgstr "razón:     1,8 (9/5)"
+msgstr "largo/ancho:  1,8 (9/5)"
 
 #: ../../src/Pinball.cpp:666
 msgid "ratio:        2 (2/1)"
-msgstr "razón:        2 (2/1)"
+msgstr "largo/ancho:     2 (2/1)"
 
 #: ../../src/Pinball.cpp:671
 msgid "texture:       nicest"
@@ -271,11 +274,11 @@ msgstr "destellos:      si"
 
 #: ../../src/Pinball.cpp:687
 msgid "dynamic lights:   yes"
-msgstr "luces dinámicas: si"
+msgstr "luces disco: si"
 
 #: ../../src/Pinball.cpp:688
 msgid "dynamic lights:    no"
-msgstr "luces dinámicas: no"
+msgstr "luces disco: no"
 
 #: ../../src/Pinball.cpp:697
 msgid "sound:            off"
@@ -315,39 +318,39 @@ msgstr "sonido:     ========"
 
 #: ../../src/Pinball.cpp:709
 msgid "music:            off"
-msgstr "música:         no"
+msgstr "fondo musical:         no"
 
 #: ../../src/Pinball.cpp:710
 msgid "music:       =......."
-msgstr "música:     =......."
+msgstr "fondo musical:     =......."
 
 #: ../../src/Pinball.cpp:711
 msgid "music:       ==......"
-msgstr "música:     ==......"
+msgstr "fondo musical:     ==......"
 
 #: ../../src/Pinball.cpp:712
 msgid "music:       ===....."
-msgstr "música:     ===....."
+msgstr "fondo musical:     ===....."
 
 #: ../../src/Pinball.cpp:713
 msgid "music:       ====...."
-msgstr "música:     ====...."
+msgstr "fondo musical:     ====...."
 
 #: ../../src/Pinball.cpp:714
 msgid "music:       =====..."
-msgstr "música:     =====..."
+msgstr "fondo musical:     =====..."
 
 #: ../../src/Pinball.cpp:715
 msgid "music:       ======.."
-msgstr "música:     ======.."
+msgstr "fondo musical:     ======.."
 
 #: ../../src/Pinball.cpp:716
 msgid "music:       =======."
-msgstr "música:     =======."
+msgstr "fondo musical:     =======."
 
 #: ../../src/Pinball.cpp:717
 msgid "music:       ========"
-msgstr "música:     ========"
+msgstr "fondo musical:     ========"
 
 #: ../../src/Pinball.cpp:720
 msgid "leftflip"
@@ -385,48 +388,56 @@ msgstr "aplicar"
 msgid "back"
 msgstr "volver"
 
-#: ../../src/Score.cpp:93
+#: ../../src/Pinball.cpp:828
+msgid "no table loaded"
+msgstr "sin tablero cargado"
+
+#: ../../src/Pinball.cpp:829
+msgid "press esc"
+msgstr "presionar ESC"
+
+#: ../../src/Score.cpp:92
 #, c-format
 msgid "press %s to launch ball"
 msgstr "presionar %s, para lanzar la bola"
 
-#: ../../src/Score.cpp:99
+#: ../../src/Score.cpp:98
 msgid "tilt"
 msgstr "tilt"
 
-#: ../../src/Score.cpp:104
+#: ../../src/Score.cpp:103
 msgid "warning"
 msgstr "advertencia"
 
+#: ../../src/Score.cpp:120
+#, c-format
+msgid "press %s to start new game"
+msgstr "tecla %s para nuevo juego"
+
 #: ../../src/Score.cpp:125
 msgid "Last score was a High Score!"
-msgstr "¡Puntuación máxima!"
+msgstr "¡Has superado en puntos!"
 
 #: ../../src/Score.cpp:131
 msgid "game over"
 msgstr "juego acabado"
 
-#: ../../src/Score.cpp:132
-#, c-format
-msgid "press %s to start new game"
-msgstr "presionar %s para empezar otro juego"
-
-#: ../../src/Score.cpp:143
+#: ../../src/Score.cpp:142
 #, c-format
 msgid "SCORE %d BALL %d ExtraBall"
 msgstr "PUNTOS %d BOLAS %d Bolas extra"
 
-#: ../../src/Score.cpp:145
+#: ../../src/Score.cpp:144
 #, c-format
 msgid "SCORE %d BALL %d"
 msgstr "PUNTOS %d BOLAS %d"
 
-#: ../../src/Score.cpp:148
+#: ../../src/Score.cpp:147
 #, c-format
 msgid "SCORE %d"
 msgstr "PUNTOS %d"
 
-#: ../../src/Score.cpp:188
+#: ../../src/Score.cpp:187
 msgid "new highscore! enter name:"
 msgstr "¡Nueva marca! escribe el nombre:"
 
@@ -448,7 +459,7 @@ msgstr "tocar las etiquetas azules"
 
 #: ../tux/ModuleTux.cpp:281
 msgid "follow blue arrows, hurry up"
-msgstr "rápido, sigue las flechas azules"
+msgstr "date prisa, sigue las flechas azules"
 
 #: ../tux/ModuleTux.cpp:283
 msgid "hit all of them"
@@ -476,23 +487,23 @@ msgstr "muchas bolas"
 
 #: ../tux/ModuleTux.cpp:414
 msgid "first tux saved"
-msgstr "primer Tux salvados"
+msgstr "primer Tux salvado"
 
 #: ../tux/ModuleTux.cpp:421
 msgid "second tux saved"
-msgstr "segundo Tux salvados"
+msgstr "segundo Tux salvado"
 
 #: ../tux/ModuleTux.cpp:428
 msgid "third tux saved"
-msgstr "tercer Tux salvados"
+msgstr "tercer Tux salvado"
 
 #: ../tux/ModuleTux.cpp:435
 msgid "fourth tux saved"
-msgstr "cuarto Tux salvados"
+msgstr "cuarto Tux salvado"
 
 #: ../tux/ModuleTux.cpp:444
 msgid "all tuxes saved"
-msgstr "todos los pingüinos salvados"
+msgstr "todos los Tux salvados"
 
 #: ../hurd/ModuleHurd.cpp:267
 msgid "shoot cave to turn a square of hurd"
@@ -508,7 +519,7 @@ msgstr "seguir las flechas en el logo de hurd"
 
 #: ../hurd/ModuleHurd.cpp:273 ../hurd/ModuleHurd.cpp:275
 msgid "follow arrows, hurry up"
-msgstr "rápido, sigue las flechas"
+msgstr "date prisa, sigue las flechas"
 
 #: ../hurd/ModuleHurd.cpp:277
 msgid "follow all arrows"
@@ -541,12 +552,6 @@ msgstr "cuarto desarrollo de hurd"
 #: ../hurd/ModuleHurd.cpp:432
 msgid "hurd is stable"
 msgstr "hurd es estable"
-
-#~ msgid "no table loaded"
-#~ msgstr "sin tablero cargado"
-
-#~ msgid "press esc"
-#~ msgstr "presionar ESC"
 
 #~ msgid "return"
 #~ msgstr "Entree"
