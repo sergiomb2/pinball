@@ -7,10 +7,10 @@ pinlib_LIBRARIES = libemilia_pin.a
 
 bin_PROGRAMS = pinball
 
-AM_CPPFLAGS = -I../base -I../addon @INCLTDL@
+AM_CPPFLAGS = -I../base -I../addon
 
 pinball_LDADD = \
- libemilia_pin.a ../addon/libemilia_addon.a ../base/libemilia_base.a @LIBLTDL@
+ libemilia_pin.a ../addon/libemilia_addon.a ../base/libemilia_base.a -lltdl
 
 pinball_LDFLAGS = -export-dynamic
 
