@@ -4,10 +4,6 @@ dnl init autoconf and automake
 AC_INIT(pinball, 0.3.5)
 
 AC_CONFIG_HEADERS(pinconfig.h)
-LT_CONFIG_LTDL_DIR([libltdl])
-AC_CONFIG_AUX_DIR([libltdl/config])
-AC_CONFIG_MACRO_DIR([libltdl/m4])
-
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
@@ -37,7 +33,6 @@ AC_ARG_WITH(cxxflags,
     [CXXFLAGS=$with_cxxflags; export CXXFLAGS])
 
 AC_LIBTOOL_DLOPEN
-LTDL_INIT
 
 dnl *******************************************
 dnl PATHS AND DIRS ****************************
