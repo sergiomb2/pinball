@@ -847,7 +847,7 @@ int main(int argc, char *argv[]) {
           //EmFont::getInstance()->printRowCenter("press esc", 8);
 	srand (time(NULL));
 	int iTable ; 
-	iTable = rand() % 5 +1;
+	iTable = rand() % 3 +1;
 	if (iTable == 1){
 		if (Table::getInstance()->loadLevel(engine, "tux") == 0) {
       			Table::getInstance()->readHighScoresFile();	
@@ -855,24 +855,12 @@ int main(int argc, char *argv[]) {
     		}
 	     }
 	else if (iTable == 2){
-		if (Table::getInstance()->loadLevel(engine, "professor") == 0) {
-      			Table::getInstance()->readHighScoresFile();	
-      			Table::getInstance()->getScore()->draw();
-    		}
-	     }
-	else if (iTable == 3){
 		if (Table::getInstance()->loadLevel(engine, "gnu") == 0) {
       			Table::getInstance()->readHighScoresFile();	
       			Table::getInstance()->getScore()->draw();
     		}
 	     }
-	else if (iTable == 4){
-		if (Table::getInstance()->loadLevel(engine, "professor2") == 0) {
-      			Table::getInstance()->readHighScoresFile();	
-      			Table::getInstance()->getScore()->draw();
-    		}
-	     }
-	else if (iTable == 5){
+	else if (iTable == 3){
 		if (Table::getInstance()->loadLevel(engine, "hurd") == 0) {
       			Table::getInstance()->readHighScoresFile();	
       			Table::getInstance()->getScore()->draw();
