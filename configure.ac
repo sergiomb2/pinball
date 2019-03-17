@@ -1,7 +1,7 @@
 dnl #                                               -*- Autoconf -*-
 dnl # Process this file with autoconf 2.53 to produce a configure script.
 dnl init autoconf and automake
-AC_INIT(pinball, 0.3.5)
+AC_INIT([pinball],[0.3.5])
 
 AC_CONFIG_HEADERS(pinconfig.h)
 AC_CANONICAL_HOST
@@ -103,7 +103,7 @@ case "$target" in
         SYS_GL_LIBS=""
         ;;
     *-*-aix*)
-        if test x$ac_cv_prog_gcc = xyes; then
+        if test x$ac_cv_c_compiler_gnu = xyes; then
             CFLAGS="-mthreads"
 				fi
         SYS_GL_LIBS=""
@@ -125,7 +125,7 @@ AC_SUBST(MATHLIB)
 
 dnl Check for OpenGL
 AC_MSG_CHECKING(for OpenGL support)
-AC_TRY_COMPILE([
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #ifdef WIN32
 # define WINAPI
 #endif
@@ -135,7 +135,7 @@ AC_TRY_COMPILE([
  #else
  # include <GL/gl.h>
  #endif
-], , , AC_MSG_ERROR([*** OpenGL not found on system!]))
+]], [[]])],[],[AC_MSG_ERROR(*** OpenGL not found on system!)])
 AC_MSG_RESULT(yes)
 GL_LIBS="$SYS_GL_LIBS"
 AC_SUBST(GL_LIBS)
