@@ -19,6 +19,7 @@ AM_GNU_GETTEXT([external])
 #For rhel6 but rhel6 doesn't have SDL2
 #AM_GNU_GETTEXT_VERSION(0.17)
 AM_GNU_GETTEXT_VERSION(0.19.8)
+AM_GNU_GETTEXT_REQUIRE_VERSION([0.19.8])
 
 dnl this is a c++ program
 dnl CFLAGS="-g -W -Wall -O2"
