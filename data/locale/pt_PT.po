@@ -388,7 +388,7 @@ msgstr "voltar"
 #: ../../src/Score.cpp:93
 #, c-format
 msgid "press %s to launch ball"
-msgstr "Carregar em %s, para lancar a bola"
+msgstr "tecla %s, para comecar"
 
 #: ../../src/Score.cpp:99
 msgid "tilt"
@@ -409,7 +409,7 @@ msgstr "Fim do Jogo"
 #: ../../src/Score.cpp:132
 #, c-format
 msgid "press %s to start new game"
-msgstr "tecla %s, para jogar de novo"
+msgstr "tecla %s, para outro jogo"
 
 #: ../../src/Score.cpp:143
 #, c-format
@@ -543,7 +543,7 @@ msgid "hurd is stable"
 msgstr "Hurd esta estavel"
 
 #~ msgid "no table loaded"
-#~ msgstr "Nenhuma mesa carragada"
+#~ msgstr "Nenhuma mesa escolhida"
 
 #~ msgid "press esc"
 #~ msgstr "carregar em esc"
