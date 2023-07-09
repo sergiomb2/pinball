@@ -167,6 +167,10 @@ const char* MenuChoose::getText() {
   }
 }
 
+const char* MenuChoose::getTextDisplay() {
+    return MenuChoose::getText();
+}
+
 void MenuChoose::addText(const char * text) {
   // TODO free these chars
   char * str = (char*) malloc((MAX_MENU_NAME+1)*sizeof(char));
@@ -205,9 +209,10 @@ int MenuChoose::prev() {
 /***************************************************************************
  * A menu that performs a function when choosen */
 
-MenuFct::MenuFct(const char * name, int (*fct)(void), Engine* e)
+MenuFct::MenuFct(const char * name, const char* nameDisplay, int (*fct)(void), Engine* e)
   : MenuItem(e, EM_MENU_FCT) {
   strncpy(m_Name, name, MAX_MENU_NAME);
+  strncpy(m_NameDisplay, nameDisplay, MAX_MENU_NAME);
   p_Fct = fct;
 }
 
