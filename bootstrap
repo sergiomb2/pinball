@@ -1,6 +1,11 @@
 #! /bin/sh
-# SPDX-License-Identifier: GPL-2
+
 set -e
 set -x
 
-./helper.mk bootstrap
+rm -rf libltdl/
+
+autoreconf -i
+
+echo "Now you may do: ./configure && make "
+echo "and: make install (as root) or src/pinball"
