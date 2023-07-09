@@ -3,6 +3,8 @@
 # Git
 *~*
 *.tmp
+*.rej
+*.orig
 
 # Temporary places
 **/tmp/
@@ -17,7 +19,10 @@
 */Makefile
 */Makefile.in
 *~
+
+ABOUT-NLS
 INSTALL
+MANIFEST
 Makefile
 Makefile.in
 aclocal.m4
@@ -55,6 +60,17 @@ stamp-h1
 data/*.libs/
 data/*/*.lo
 data/*/*.la
+
+data/locale/Makefile.in.in
+data/locale/Makevars.template
+data/locale/Rules-quot
+data/locale/boldquot.sed
+data/locale/en@boldquot.header
+data/locale/en@quot.header
+data/locale/insert-header.sin
+data/locale/quot.sed
+data/locale/remove-potcdate.sin
+data/locale/pinball.pot
 
 Makefile
 Makefile.in
